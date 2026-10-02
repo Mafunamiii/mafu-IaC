@@ -1,0 +1,30 @@
+# OpenTofu
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+**/crash.log
+**/crash.*.log
+
+# Sensitive OpenTofu variables
+**/*.tfvars
+**/*.tfvars.json
+
+# Environment / secrets
+**/.env
+**/.env.*
+
+# Ansible
+**/*.retry
+**/vault-password*
+
+# SSH/private keys
+**/*.pem
+**/*.key
+**/id_rsa
+**/id_ed25519
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
