@@ -18,4 +18,4 @@ Infrastructure as Code repository for Mafu's homelab and cloud infrastructure.
 - Reproducible server configuration
 - Version-controlled infrastructure changes
 - Disaster recovery and rebuild capability
->>>>>>> 6162029 (Initialize IaC repository)
+
