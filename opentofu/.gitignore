@@ -1,0 +1,20 @@
+# OpenTofu working directory
+.terraform/
+
+# Local OpenTofu state
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Variable files may contain secrets
+*.tfvars
+*.tfvars.json
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
