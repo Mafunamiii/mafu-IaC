@@ -135,3 +135,66 @@ resource "azurerm_managed_disk" "os" {
   # Use the exact image version that created the existing disk.
   image_reference_id = "/Subscriptions/4ba3fb67-53c0-4e3d-b1fc-843a8293851e/Providers/Microsoft.Compute/Locations/southeastasia/Publishers/debian/ArtifactTypes/VMImage/Offers/debian-12/Skus/12-gen2/Versions/0.20260909.2596"
 }
+
+# VM ================================================
+# Azure Linux virtual machine.
+resource "azurerm_linux_virtual_machine" "main" {
+  name                = "MafuServer"
+  computer_name       = "MafuServer"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  size                = "Standard_B1s"
+
+  # Existing administrator account on the VM.
+  admin_username = "jahn"
+
+  # Disable password-based SSH authentication.
+  disable_password_authentication = true
+
+  # Use the existing network interface.
+  network_interface_ids = [
+    azurerm_network_interface.main.id
+  ]
+
+  # Use the existing managed OS disk.
+  os_disk {
+    name                 = azurerm_managed_disk.os.name
+    caching              = "ReadWrite"
+    storage_account_type = "StandardSSD_LRS"
+  }
+
+  # Existing Debian 12 Gen2 image.
+  source_image_reference {
+    publisher = "debian"
+    offer     = "debian-12"
+    sku       = "12-gen2"
+    version   = "latest"
+  }
+
+  # Match the VM's existing availability zone.
+  zone = "1"
+
+  # Enable Azure Trusted Launch security.
+  secure_boot_enabled = true
+  vtpm_enabled        = true
+
+  # Match the existing Linux patch configuration.
+  patch_mode = "ImageDefault"
+
+  # Existing SSH public key used for administrator access.
+  admin_ssh_key {
+    username   = "jahn"
+    public_key = var.admin_ssh_public_key
+  }
+
+  # Preserve the VM's existing system-assigned managed identity.
+  identity {
+    type = "SystemAssigned"
+  }
+
+  # Preserve the existing VM capability settings.
+  additional_capabilities {
+    hibernation_enabled = false
+    ultra_ssd_enabled   = false
+  }
+}
