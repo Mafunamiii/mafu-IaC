@@ -13,3 +13,13 @@ resource "azurerm_virtual_network" "main" {
   # Private address space used by resources inside this VNet.
   address_space = ["172.16.0.0/16"]
 }
+
+# Subnet used by the VPS network interface.
+resource "azurerm_subnet" "main" {
+  name                 = "snet-southeastasia-1"
+  resource_group_name  = azurerm_resource_group.main.name
+  virtual_network_name = azurerm_virtual_network.main.name
+
+  # Address range allocated to this subnet.
+  address_prefixes = ["172.16.0.0/24"]
+}
