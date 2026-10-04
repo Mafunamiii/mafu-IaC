@@ -1,4 +1,4 @@
-# Azure resource group containing the VPS infrastructure.
+#Azure resource group containing the VPS infrastructure.
 resource "azurerm_resource_group" "main" {
   name     = "MafuServer"
   location = "southeastasia"
@@ -22,4 +22,10 @@ resource "azurerm_subnet" "main" {
 
   # Address range allocated to this subnet.
   address_prefixes = ["172.16.0.0/24"]
+}
+# Network Security Group providing the Azure-side firewall.
+resource "azurerm_network_security_group" "main" {
+  name                = "MafuServer-nsg"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
 }
